@@ -8,7 +8,7 @@ const Variables = css`
     --color-secondary: #10061e;
     --color-accent: #7f56d9;
     --color-gray-transparent: rgba(255, 254, 254, 0.23);
-    --color-gray-transparent-hover: rgba(255, 254, 254, 0.33);
+    --color-gray-transparent-hover: rgba(255, 254, 254, 0.5);
     --color-white-hover: rgba(255, 255, 255, 0.7);
     --color-error: #fc4754;
 

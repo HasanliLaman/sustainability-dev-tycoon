@@ -1,47 +1,54 @@
+import { useState, forwardRef } from "react";
 import iconEye from "../../../assets/icons/eye.svg";
 import iconEyeClosed from "../../../assets/icons/eye-closed.svg";
 import StyleInput from "./style";
-import { useState } from "react";
 
 interface InputProps {
   type: string;
-  id: string;
   name: string;
   placeholder: string;
+  errorMsg: string | undefined;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 
-const Input: React.FC<InputProps> = ({ type, id, name, placeholder }) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ type, name, placeholder, errorMsg, onChange, onBlur }, ref) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  return (
-    <StyleInput>
-      <div>
-        <input
-          placeholder={placeholder}
-          type={
-            type === "password" ? (showPassword ? "text" : "password") : type
-          }
-          id={id}
-          name={name}
-        />
-        {type === "password" &&
-          (showPassword ? (
-            <img
-              onClick={() => setShowPassword(false)}
-              src={iconEyeClosed}
-              alt="do not show password"
-            />
-          ) : (
-            <img
-              onClick={() => setShowPassword(true)}
-              src={iconEye}
-              alt="show password"
-            />
-          ))}
-      </div>
-      {/* <p className="error-text">alklakslkaldhas</p> */}
-    </StyleInput>
-  );
-};
+    return (
+      <StyleInput>
+        <div className={errorMsg ? "error" : ""}>
+          <input
+            placeholder={placeholder}
+            type={
+              type === "password" ? (showPassword ? "text" : "password") : type
+            }
+            id={name}
+            name={name}
+            onChange={onChange}
+            onBlur={onBlur}
+            ref={ref}
+          />
+          {type === "password" &&
+            (showPassword ? (
+              <img
+                onClick={() => setShowPassword(false)}
+                src={iconEyeClosed}
+                alt="do not show password"
+              />
+            ) : (
+              <img
+                onClick={() => setShowPassword(true)}
+                src={iconEye}
+                alt="show password"
+              />
+            ))}
+        </div>
+        {errorMsg && <p className="error-text">{errorMsg}</p>}
+      </StyleInput>
+    );
+  }
+);
 
 export default Input;

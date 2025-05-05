@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface StyleButtonProps {
   btnType?: string;
+  disabled?: boolean;
 }
 
 const StyleButton = styled.button<StyleButtonProps>`
@@ -12,6 +13,11 @@ const StyleButton = styled.button<StyleButtonProps>`
   font-size: 2rem;
   line-height: 2.4rem;
   font-weight: var(--fw-medium);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  pointer-events: ${(props) => (props.disabled ? "none" : "all")};
 
   transition: all 0.3s;
   background: ${(props) =>
