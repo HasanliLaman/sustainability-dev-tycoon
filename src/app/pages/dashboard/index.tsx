@@ -1,15 +1,11 @@
 import Container from "../../../components/container";
+import Loading from "../../../components/loading";
 
 const Dashboard = () => {
   return (
     <div>
-      <Container
-        homeIcon={true}
-        backIcon={true}
-        header="New Project"
-        backUrl="/"
-      >
-        <p>laman laman laman</p>
+      <Container homeIcon={false} backIcon={true} header="Sign in">
+        <Loading />
       </Container>
     </div>
   );

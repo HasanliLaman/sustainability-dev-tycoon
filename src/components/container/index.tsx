@@ -9,7 +9,7 @@ interface ContainerProps {
   header: string;
   homeIcon: boolean;
   backIcon: boolean;
-  backUrl: string;
+  backUrl?: string;
 }
 
 const Container: React.FC<ContainerProps> = ({
@@ -21,7 +21,7 @@ const Container: React.FC<ContainerProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const onBackBtn = () => navigate(backUrl);
+  const onBackBtn = () => navigate(backUrl || "/");
   const onHomeBtn = () => navigate("/");
 
   return (
@@ -33,7 +33,7 @@ const Container: React.FC<ContainerProps> = ({
               <img src={iconBack} alt="back" />
             </button>
           )}
-          <p>{header}</p>
+          <h2>{header}</h2>
           {homeIcon && (
             <button onClick={onHomeBtn} className="header-btn">
               <img src={iconHome} alt="home" />

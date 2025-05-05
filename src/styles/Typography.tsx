@@ -9,6 +9,7 @@ const Typography = css`
     font-size: 1.6rem;
     font-family: var(--font-family);
     color: var(--color-white);
+    font-weight: var(--fw-medium);
   }
 `;
 

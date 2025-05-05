@@ -10,6 +10,7 @@ const Variables = css`
     --color-gray-transparent: rgba(255, 254, 254, 0.23);
     --color-gray-transparent-hover: rgba(255, 254, 254, 0.33);
     --color-white-hover: rgba(255, 255, 255, 0.7);
+    --color-error: #fc4754;
 
     --border-radius: 4px;
 

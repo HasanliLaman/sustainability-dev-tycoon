@@ -22,10 +22,10 @@ const StyleContainer = styled.div`
     gap: 2.4rem;
     padding-bottom: 1.6rem;
 
-    p {
+    h2 {
       font-size: 2.4rem;
-      font-weight: var(--fw-medium);
       flex: 1 1;
+      font-weight: var(--fw-medium);
     }
   }
 
