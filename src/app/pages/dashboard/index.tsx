@@ -8,8 +8,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const onClickSignin = () => navigate("/signin");
-  const onClickPlayGuest = () => navigate("/guest");
+  // const onClickSignin = () => navigate("/signin");
+  // const onClickPlayGuest = () => navigate("/guest");
+  const onClickStart = () => navigate("/game");
   const onClickTutorial = () => navigate("/tutorial");
   const onClickCheatsheet = () => navigate("/cheatsheet");
 
@@ -21,7 +22,7 @@ const Dashboard = () => {
       {loading && <Loading setLoading={setLoading} />}
       {!loading && (
         <div className="buttons">
-          <Button
+          {/* <Button
             btnType="transparent"
             text="Sign in"
             onClick={onClickSignin}
@@ -30,7 +31,8 @@ const Dashboard = () => {
             btnType="transparent"
             text="Play as a guest"
             onClick={onClickPlayGuest}
-          />
+          /> */}
+          <Button btnType="transparent" text="Start" onClick={onClickStart} />
           <Button
             btnType="transparent"
             text="How to play?"

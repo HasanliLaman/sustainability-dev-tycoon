@@ -3,11 +3,12 @@ import { ToastContainer } from "react-toastify";
 import GlobalStyle from "../styles/GlobalStyles";
 import Dashboard from "./pages/dashboard";
 import Background from "../components/background";
-import Signin from "./pages/signin";
-import Signup from "./pages/signup";
-import GuestSignin from "./pages/guestLogin";
+// import Signin from "./pages/signin";
+// import Signup from "./pages/signup";
+// import GuestSignin from "./pages/guestLogin";
 import Tutorial from "./pages/tutorial";
 import Cheatsheet from "./pages/cheatsheet";
+import Game from "./pages/game";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -18,11 +19,12 @@ function App() {
         <Background />
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/signin" element={<Signin />} />
+          {/* <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/guest" element={<GuestSignin />} />
+          <Route path="/guest" element={<GuestSignin />} /> */}
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/cheatsheet" element={<Cheatsheet />} />
+          <Route path="/game" element={<Game />} />
         </Routes>
       </main>
       <ToastContainer position="bottom-right" />

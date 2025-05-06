@@ -7,8 +7,8 @@ interface StyleRangeProps {
 const StyleRange = styled.div<StyleRangeProps>`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 1.2rem 0;
+  gap: 1rem;
+  padding: 1.2rem 0 1.5rem;
   font-size: 1.8rem;
 
   input {

@@ -18,8 +18,7 @@ const StyleContainer = styled.div`
 
     & > :nth-child(2) {
       height: 100%;
-      max-height: 100%;
-      max-height: 45rem;
+      max-height: calc(100vh - 14.8rem);
       overflow: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--color-white) rgb(255, 255, 255, 0.1);

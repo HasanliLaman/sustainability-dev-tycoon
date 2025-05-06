@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyleRadioGroup = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2.4rem 1.6rem;
 
   label {
@@ -45,6 +45,7 @@ const StyleRadioGroup = styled.div`
       border-radius: 50%;
       height: 2.4rem;
       width: 2.4rem;
+      flex-shrink: 0;
     }
 
     &:has(input:checked) {

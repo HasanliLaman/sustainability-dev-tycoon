@@ -11,8 +11,7 @@ const StyleDashboard = styled.section`
 
   .buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 2.4rem;
   }
 
@@ -30,7 +29,6 @@ const StyleDashboard = styled.section`
   @media (max-width: 576px) {
     .buttons {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr 1fr 1fr;
     }
   }
 `;

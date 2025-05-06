@@ -51,6 +51,7 @@ const StyleCheckboxGroup = styled.div`
       border-radius: 0.6rem;
       height: 2.4rem;
       width: 2.4rem;
+      flex-shrink: 0;
     }
   }
 
