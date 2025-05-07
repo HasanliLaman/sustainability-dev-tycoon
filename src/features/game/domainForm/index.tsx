@@ -26,7 +26,7 @@ const DomainForm: React.FC<DomainFormProps> = ({ display, setOpenDomain }) => {
               { label: "Social Media", value: "social-media" },
               {
                 label: "Accommodation & Booking",
-                value: "accomodation-booking",
+                value: "accommodation-booking",
               },
             ]}
             value={field.value}

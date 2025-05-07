@@ -8,6 +8,7 @@ import MainGame from "../../../features/game/mainGame";
 import PatternsForm from "../../../features/game/patternsForm";
 import SqaForm from "../../../features/game/sqaForm";
 import { gameSchema } from "./schema";
+import { calculateScore } from "../../../utils/gameUtils";
 import StyleGame from "./style";
 
 const Game = () => {
@@ -26,7 +27,6 @@ const Game = () => {
   const methods = useForm({
     resolver: yupResolver(gameSchema),
   });
-  // const { errors } = methods.formState;
 
   const submitHandler = async function (formData: {
     name: string;
@@ -41,7 +41,37 @@ const Game = () => {
       economic: number;
     };
   }) {
-    console.log(formData);
+    const formattedDimensions = {
+      economic: formData.dimensionValues.economic,
+      individual: formData.dimensionValues.individual,
+      social: formData.dimensionValues.social,
+      environmental: formData.dimensionValues.environmental,
+      technical: formData.dimensionValues.technical,
+    };
+
+    const { score, das, sqcs, dpcs } = calculateScore(
+      formData.domain,
+      formData.attributes,
+      formData.patterns,
+      formattedDimensions
+    );
+
+    console.log(`Sustainability score: ${Math.round(score * 100)}%`);
+    if (das < 0.7) {
+      console.log(
+        "⚠️ Your sustainability priorities don’t align well with this domain."
+      );
+    }
+    if (sqcs < 0.7) {
+      console.log(
+        "⚠️ The selected Software Quality Attributes (SQAs) are not highly suitable for this domain."
+      );
+    }
+    if (dpcs < 0.7) {
+      console.log(
+        "⚠️ Your selected design patterns don’t strongly support your application."
+      );
+    }
 
     methods.reset({
       name: "",
