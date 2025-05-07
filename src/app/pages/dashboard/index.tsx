@@ -5,7 +5,9 @@ import Button from "../../../components/button";
 import { useNavigate } from "react-router";
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(() => {
+    return sessionStorage.getItem("hasLoaded") !== "true";
+  });
   const navigate = useNavigate();
 
   // const onClickSignin = () => navigate("/signin");
@@ -32,13 +34,20 @@ const Dashboard = () => {
             text="Play as a guest"
             onClick={onClickPlayGuest}
           /> */}
-          <Button btnType="transparent" text="Start" onClick={onClickStart} />
           <Button
+            type="button"
+            btnType="transparent"
+            text="Start"
+            onClick={onClickStart}
+          />
+          <Button
+            type="button"
             btnType="transparent"
             text="How to play?"
             onClick={onClickTutorial}
           />
           <Button
+            type="button"
             btnType="transparent"
             text="Cheatsheet"
             onClick={onClickCheatsheet}

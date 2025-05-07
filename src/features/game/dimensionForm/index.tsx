@@ -1,19 +1,99 @@
+import { Controller, useFormContext } from "react-hook-form";
 import Button from "../../../components/button";
 import Range from "../../../components/form/range";
 import StyleDimensionForm from "./style";
+import { toast } from "react-toastify";
 
-const DimensionForm = () => {
+interface DimensionFormProps {
+  display: boolean;
+  setOpenDimension: (value: boolean) => void;
+}
+
+const DimensionForm: React.FC<DimensionFormProps> = ({
+  display,
+  setOpenDimension,
+}) => {
+  const { control, trigger } = useFormContext();
+
   return (
-    <StyleDimensionForm>
+    <StyleDimensionForm display={display}>
       <div className="range-group">
-        <Range name="individual" label="Individual" />
-        <Range name="economic" label="Economic" />
-        <Range name="social" label="Social" />
-        <Range name="environmental" label="Environmental" />
-        <Range name="technical" label="Technical" />
+        <Controller
+          name="dimensionValues.individual"
+          control={control}
+          render={({ field }) => (
+            <Range
+              name={field.name}
+              label="Individual"
+              value={field.value || "0"}
+              onChange={(value) => field.onChange(Number(value))}
+            />
+          )}
+        />
+        <Controller
+          name="dimensionValues.economic"
+          control={control}
+          render={({ field }) => (
+            <Range
+              name={field.name}
+              label="Economic"
+              value={field.value || "0"}
+              onChange={(value) => field.onChange(Number(value))}
+            />
+          )}
+        />
+        <Controller
+          name="dimensionValues.social"
+          control={control}
+          render={({ field }) => (
+            <Range
+              name={field.name}
+              label="Social"
+              value={field.value || "0"}
+              onChange={(value) => field.onChange(Number(value))}
+            />
+          )}
+        />
+        <Controller
+          name="dimensionValues.environmental"
+          control={control}
+          render={({ field }) => (
+            <Range
+              name={field.name}
+              label="Environmental"
+              value={field.value || "0"}
+              onChange={(value) => field.onChange(Number(value))}
+            />
+          )}
+        />
+        <Controller
+          name="dimensionValues.technical"
+          control={control}
+          render={({ field }) => (
+            <Range
+              name={field.name}
+              label="Technical"
+              value={field.value || "0"}
+              onChange={(value) => field.onChange(Number(value))}
+            />
+          )}
+        />
       </div>
       <div className="save-btn">
-        <Button text="Save" onClick={() => {}} />
+        <Button
+          text="Save"
+          type="button"
+          onClick={async () => {
+            const isValid = await trigger("dimensionValues");
+            if (isValid) {
+              setOpenDimension(false);
+              return;
+            }
+            toast.error(
+              "Please choose a value between 1 and 10 for each dimension!"
+            );
+          }}
+        />
       </div>
     </StyleDimensionForm>
   );

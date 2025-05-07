@@ -1,4 +1,3 @@
-import { useState } from "react";
 import StyleCheckboxGroup from "./style";
 
 interface Option {
@@ -10,21 +9,23 @@ interface CheckboxGroupProps {
   options: Option[];
   fieldName: string;
   title: string;
+  value: string[];
+  onChange: (value: string[]) => void;
 }
 
 const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   options,
   fieldName,
   title,
+  value,
+  onChange,
 }) => {
-  const [selected, setSelected] = useState<string[]>([]);
-
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
+    const { value: checkboxValue, checked } = event.target;
     if (checked) {
-      setSelected((prev) => [...prev, value]);
+      onChange([...value, checkboxValue]);
     } else {
-      setSelected((prev) => prev.filter((v) => v !== value));
+      onChange(value.filter((v) => v !== checkboxValue));
     }
   };
 
@@ -39,7 +40,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               type="checkbox"
               name={fieldName}
               value={option.value}
-              checked={selected.includes(option.value)}
+              checked={value.includes(option.value)}
               onChange={handleCheckboxChange}
             />
             <span></span>

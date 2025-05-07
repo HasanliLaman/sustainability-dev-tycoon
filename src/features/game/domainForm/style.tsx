@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
-const StyleDomainForm = styled.div`
+interface StyleDomainFormProps {
+  display?: boolean;
+}
+
+const StyleDomainForm = styled.div<StyleDomainFormProps>`
   margin-top: 2.4rem;
+  display: ${(props) => (props.display ? "block" : "none")};
   .save-btn {
     display: flex;
     justify-content: flex-end;

@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-const StyleDimensionForm = styled.div`
+interface StyleDimensionFormProps {
+  display?: boolean;
+}
+
+const StyleDimensionForm = styled.div<StyleDimensionFormProps>`
+  display: ${(props) => (props.display ? "block" : "none")};
   .range-group {
     display: flex;
     flex-direction: column;

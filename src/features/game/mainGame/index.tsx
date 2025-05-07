@@ -1,52 +1,96 @@
+import { useFormContext } from "react-hook-form";
 import Input from "../../../components/form/input";
 import iconChevron from "../../../assets/icons/chevron-right.svg";
 import iconDone from "../../../assets/icons/done.svg";
 import StyleMainGame from "./style";
 import Button from "../../../components/button";
+import { forwardRef } from "react";
+import { toast } from "react-toastify";
 
 interface MainGameProps {
   setOpenDimension: (value: boolean) => void;
   setOpenDomain: (value: boolean) => void;
   setOpenPatterns: (value: boolean) => void;
   setOpenSqa: (value: boolean) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  display: boolean;
 }
 
-const MainGame: React.FC<MainGameProps> = ({
-  setOpenDimension,
-  setOpenDomain,
-  setOpenPatterns,
-  setOpenSqa,
-}) => {
-  return (
-    <StyleMainGame>
-      <Input
-        // {...register("email")}
-        type="text"
-        placeholder="Application name"
-        name="name"
-        errorMsg={""}
-      />
-      <div className="action-buttons">
-        <button type="button" onClick={() => setOpenDomain(true)}>
-          Choose domain
-          <img src={iconDone} alt="Choose Domain" />
-        </button>
-        <button type="button" onClick={() => setOpenDimension(true)}>
-          Adjust Dimensions
-          <img src={iconChevron} alt="Adjust Dimensions" />
-        </button>
-        <button type="button" onClick={() => setOpenSqa(true)}>
-          Choose Attributes
-          <img src={iconChevron} alt="Choose Attributes" />
-        </button>
-        <button type="button" onClick={() => setOpenPatterns(true)}>
-          Choose Design Patterns
-          <img src={iconChevron} alt="Choose Design Patterns" />
-        </button>
-      </div>
-      <Button text="Create" onClick={() => {}} />
-    </StyleMainGame>
-  );
-};
+const MainGame = forwardRef<HTMLInputElement, MainGameProps>(
+  (
+    {
+      setOpenDimension,
+      setOpenDomain,
+      setOpenPatterns,
+      setOpenSqa,
+      onChange,
+      onBlur,
+      display,
+    },
+    ref
+  ) => {
+    const { getFieldState, trigger } = useFormContext();
+
+    const domainState = getFieldState("domain");
+    const dimensionState = getFieldState("dimensionValues");
+    const attributesState = getFieldState("attributes");
+    const patternsState = getFieldState("patterns");
+
+    const domainIcon =
+      !domainState.invalid && domainState.isDirty ? iconDone : iconChevron;
+    const dimensionIcon =
+      !dimensionState.invalid && dimensionState.isDirty
+        ? iconDone
+        : iconChevron;
+    const attributesIcon =
+      !attributesState.invalid && attributesState.isDirty
+        ? iconDone
+        : iconChevron;
+    const patternsIcon =
+      !patternsState.invalid && patternsState.isDirty ? iconDone : iconChevron;
+
+    return (
+      <StyleMainGame display={display}>
+        <Input
+          ref={ref}
+          type="text"
+          placeholder="Application name"
+          name="name"
+          errorMsg={""}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <div className="action-buttons">
+          <button type="button" onClick={() => setOpenDomain(true)}>
+            Choose domain
+            <img src={domainIcon} alt="Choose Domain" />
+          </button>
+          <button type="button" onClick={() => setOpenDimension(true)}>
+            Adjust Dimensions
+            <img src={dimensionIcon} alt="Adjust Dimensions" />
+          </button>
+          <button type="button" onClick={() => setOpenSqa(true)}>
+            Choose Attributes
+            <img src={attributesIcon} alt="Choose Attributes" />
+          </button>
+          <button type="button" onClick={() => setOpenPatterns(true)}>
+            Choose Design Patterns
+            <img src={patternsIcon} alt="Choose Design Patterns" />
+          </button>
+        </div>
+        <Button
+          text="Create"
+          onClick={async () => {
+            const isValid = await trigger();
+            if (!isValid) {
+              toast.error("Please fill all the fields!");
+            }
+          }}
+        />
+      </StyleMainGame>
+    );
+  }
+);
 
 export default MainGame;

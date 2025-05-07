@@ -10,6 +10,7 @@ interface ButtonProps {
   onClick: () => void;
   btnType?: string;
   isLoading?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,9 +18,15 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   btnType,
   isLoading,
+  type,
 }) => {
   return (
-    <StyleButton disabled={isLoading} btnType={btnType} onClick={onClick}>
+    <StyleButton
+      type={type || "submit"}
+      disabled={isLoading}
+      btnType={btnType}
+      onClick={onClick}
+    >
       {text}
       {isLoading && (
         <FontAwesomeIcon

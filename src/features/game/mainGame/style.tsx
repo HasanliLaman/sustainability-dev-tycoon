@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
-const StyleMainGame = styled.div`
+interface StyleMainGameProps {
+  display?: boolean;
+}
+
+const StyleMainGame = styled.div<StyleMainGameProps>`
   margin-top: 2.4rem;
+  display: ${(props) => (props.display ? "block" : "none")};
 
   & > button {
     width: 100%;

@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
-const StyleSqaForm = styled.div`
+interface StyleSqaFormProps {
+  display?: boolean;
+}
+
+const StyleSqaForm = styled.div<StyleSqaFormProps>`
   margin-top: 2.4rem;
+  display: ${(props) => (props.display ? "block" : "none")};
+
   .save-btn {
     display: flex;
     justify-content: flex-end;

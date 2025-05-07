@@ -9,6 +9,7 @@ const Loading: React.FC<LoadingProps> = ({ setLoading }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
+      sessionStorage.setItem("hasLoaded", "true");
     }, 10000);
 
     return () => clearTimeout(timer);

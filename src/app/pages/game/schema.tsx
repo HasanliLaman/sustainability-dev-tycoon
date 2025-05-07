@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const signinSchema = Yup.object().shape({
+export const gameSchema = Yup.object().shape({
   name: Yup.string().required("This field is required."),
   domain: Yup.string().required("This field is required."),
   attributes: Yup.array()

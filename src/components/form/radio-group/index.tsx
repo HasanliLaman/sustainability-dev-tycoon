@@ -1,4 +1,3 @@
-import { useState } from "react";
 import StyleRadioGroup from "./style";
 
 interface Option {
@@ -8,13 +7,17 @@ interface Option {
 
 interface RadioGroupProps {
   options: Option[];
+  value: string;
+  onChange: (value: string) => void;
 }
 
-const RadioGroup: React.FC<RadioGroupProps> = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState("");
-
+const RadioGroup: React.FC<RadioGroupProps> = ({
+  options,
+  value,
+  onChange,
+}) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
@@ -25,7 +28,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({ options }) => {
           <input
             type="radio"
             value={el.value}
-            checked={selectedOption === el.value}
+            checked={value === el.value}
             onChange={handleChange}
           />
           <span></span>
