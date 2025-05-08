@@ -6,6 +6,7 @@ import DimensionForm from "../../../features/game/dimensionForm";
 import DomainForm from "../../../features/game/domainForm";
 import MainGame from "../../../features/game/mainGame";
 import PatternsForm from "../../../features/game/patternsForm";
+import Feedback from "../../../features/game/feedback";
 import SqaForm from "../../../features/game/sqaForm";
 import { gameSchema } from "./schema";
 import { calculateScore } from "../../../utils/gameUtils";
@@ -16,6 +17,10 @@ const Game = () => {
   const [openDomain, setOpenDomain] = useState(false);
   const [openDimension, setOpenDimension] = useState(false);
   const [openPatterns, setOpenPatterns] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [finalScore, setFinalScore] = useState<number>(0);
+  const [gameName, setGameName] = useState<string>("");
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
 
   const onBackBtn = () => {
     setOpenDimension(false);
@@ -27,6 +32,20 @@ const Game = () => {
   const methods = useForm({
     resolver: yupResolver(gameSchema),
   });
+
+  let headerTitle = "New Application";
+
+  if (showFeedback) {
+    headerTitle = "Results";
+  } else if (openSqa) {
+    headerTitle = "Choose Attributes";
+  } else if (openPatterns) {
+    headerTitle = "Choose Design Patterns";
+  } else if (openDomain) {
+    headerTitle = "Choose Domain";
+  } else if (openDimension) {
+    headerTitle = "Adjust Dimensions";
+  }
 
   const submitHandler = async function (formData: {
     name: string;
@@ -56,23 +75,32 @@ const Game = () => {
       formattedDimensions
     );
 
-    console.log(`Sustainability score: ${Math.round(score * 100)}%`);
-    if (das < 0.7) {
-      console.log(
-        "⚠️ Your sustainability priorities don’t align well with this domain."
-      );
-    }
-    if (sqcs < 0.7) {
-      console.log(
-        "⚠️ The selected Software Quality Attributes (SQAs) are not highly suitable for this domain."
-      );
-    }
-    if (dpcs < 0.7) {
-      console.log(
-        "⚠️ Your selected design patterns don’t strongly support your application."
-      );
+    let feedback = "🎉 Great job! Your application is sustainable.";
+
+    if (das < 0.7 || sqcs < 0.7 || dpcs < 0.7) {
+      feedback = "";
+      if (das < 0.7)
+        feedback +=
+          "⚠️ Your sustainability priorities don’t align well with this domain.\n ";
+      if (sqcs < 0.7)
+        feedback +=
+          "⚠️ The selected SQAs are not highly suitable for this domain.\n ";
+      if (dpcs < 0.7)
+        feedback +=
+          "⚠️ Your selected design patterns don’t strongly support your application.";
     }
 
+    setFinalScore(Math.round(score * 100));
+    setGameName(formData.name);
+    setShowFeedback(true);
+    setFeedbackMessage(feedback);
+  };
+
+  const handleRestart = () => {
+    setShowFeedback(false);
+    setFinalScore(0);
+    setGameName("");
+    setFeedbackMessage("");
     methods.reset({
       name: "",
       domain: "",
@@ -92,15 +120,26 @@ const Game = () => {
     <StyleGame>
       <Container
         onBackBtn={onBackBtn}
-        header="New application"
+        header={headerTitle}
         homeIcon={!openSqa && !openDimension && !openPatterns && !openDomain}
         backIcon={openSqa || openDimension || openPatterns || openDomain}
       >
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(submitHandler)}>
+            <Feedback
+              score={finalScore}
+              name={gameName}
+              display={showFeedback}
+              feedbackMessage={feedbackMessage}
+              handleRestart={handleRestart}
+            />
             <MainGame
               display={
-                !openSqa && !openDimension && !openPatterns && !openDomain
+                !openSqa &&
+                !openDimension &&
+                !openPatterns &&
+                !openDomain &&
+                !showFeedback
               }
               setOpenDimension={setOpenDimension}
               setOpenDomain={setOpenDomain}
