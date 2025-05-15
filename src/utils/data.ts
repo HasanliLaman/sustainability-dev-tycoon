@@ -368,6 +368,6 @@ export const designPatternsScoresTable = [
   },
 ];
 
-export const dasWeight = 0.4;
-export const sqcsWeight = 0.4;
-export const dpcsWeight = 0.2;
+export const dasWeight = 0.38;
+export const sqcsWeight = 0.35;
+export const dpcsWeight = 0.27;
