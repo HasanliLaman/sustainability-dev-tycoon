@@ -1,4 +1,6 @@
 import StyleCheckboxGroup from "./style";
+import { useSound } from "use-sound";
+import selectSound from "../../../assets/sounds/select.mp3";
 
 interface Option {
   value: string;
@@ -20,8 +22,11 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   value,
   onChange,
 }) => {
+  const [playSelect] = useSound(selectSound);
+
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value: checkboxValue, checked } = event.target;
+    playSelect();
     if (checked) {
       onChange([...value, checkboxValue]);
     } else {

@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { useSound } from "use-sound";
+import clickSound from "../../assets/sounds/click.mp3";
 import StyleButton from "./style";
 
 library.add(faSpinner);
@@ -20,12 +22,17 @@ const Button: React.FC<ButtonProps> = ({
   isLoading,
   type,
 }) => {
+  const [playClick] = useSound(clickSound);
+
   return (
     <StyleButton
       type={type || "submit"}
       disabled={isLoading}
       btnType={btnType}
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        playClick();
+      }}
     >
       {text}
       {isLoading && (

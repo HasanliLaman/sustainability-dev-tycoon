@@ -1,4 +1,6 @@
 import StyleRadioGroup from "./style";
+import { useSound } from "use-sound";
+import selectSound from "../../../assets/sounds/select.mp3";
 
 interface Option {
   value: string;
@@ -16,8 +18,11 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   value,
   onChange,
 }) => {
+  const [playSelect] = useSound(selectSound);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
+    playSelect();
   };
 
   return (

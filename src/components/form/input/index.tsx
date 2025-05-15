@@ -1,4 +1,6 @@
 import { useState, forwardRef } from "react";
+import { useSound } from "use-sound";
+import typingSound from "../../../assets/sounds/typing.mp3";
 import iconEye from "../../../assets/icons/eye.svg";
 import iconEyeClosed from "../../../assets/icons/eye-closed.svg";
 import StyleInput from "./style";
@@ -15,6 +17,7 @@ interface InputProps {
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ type, name, placeholder, errorMsg, onChange, onBlur }, ref) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [typingEventSound] = useSound(typingSound);
 
     return (
       <StyleInput>
@@ -26,7 +29,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             }
             id={name}
             name={name}
-            onChange={onChange}
+            onChange={(event) => {
+              typingEventSound();
+              if (onChange) {
+                onChange(event);
+              }
+            }}
             onBlur={onBlur}
             ref={ref}
           />

@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import Loading from "../../../components/loading";
 import StyleDashboard from "./style";
 import Button from "../../../components/button";
-import { useNavigate } from "react-router";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(() => {

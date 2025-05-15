@@ -1,11 +1,14 @@
+import { forwardRef } from "react";
+import { toast } from "react-toastify";
+import { useSound } from "use-sound";
 import { useFormContext } from "react-hook-form";
 import Input from "../../../components/form/input";
 import iconChevron from "../../../assets/icons/chevron-right.svg";
 import iconDone from "../../../assets/icons/done.svg";
 import StyleMainGame from "./style";
 import Button from "../../../components/button";
-import { forwardRef } from "react";
-import { toast } from "react-toastify";
+import warningSound from "../../../assets/sounds/warning.mp3";
+import swipeSound from "../../../assets/sounds/swipe.mp3";
 
 interface MainGameProps {
   setOpenDimension: (value: boolean) => void;
@@ -37,6 +40,9 @@ const MainGame = forwardRef<HTMLInputElement, MainGameProps>(
     const attributesState = getFieldState("attributes");
     const patternsState = getFieldState("patterns");
 
+    const [warningClick] = useSound(warningSound);
+    const [swipeEffect] = useSound(swipeSound);
+
     const domainIcon =
       !domainState.invalid && domainState.isDirty ? iconDone : iconChevron;
     const dimensionIcon =
@@ -62,19 +68,43 @@ const MainGame = forwardRef<HTMLInputElement, MainGameProps>(
           onBlur={onBlur}
         />
         <div className="action-buttons">
-          <button type="button" onClick={() => setOpenDomain(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenDomain(true);
+              swipeEffect();
+            }}
+          >
             Choose domain
             <img src={domainIcon} alt="Choose Domain" />
           </button>
-          <button type="button" onClick={() => setOpenDimension(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenDimension(true);
+              swipeEffect();
+            }}
+          >
             Adjust Dimensions
             <img src={dimensionIcon} alt="Adjust Dimensions" />
           </button>
-          <button type="button" onClick={() => setOpenSqa(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenSqa(true);
+              swipeEffect();
+            }}
+          >
             Choose Attributes
             <img src={attributesIcon} alt="Choose Attributes" />
           </button>
-          <button type="button" onClick={() => setOpenPatterns(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setOpenPatterns(true);
+              swipeEffect();
+            }}
+          >
             Choose Design Patterns
             <img src={patternsIcon} alt="Choose Design Patterns" />
           </button>
@@ -85,6 +115,7 @@ const MainGame = forwardRef<HTMLInputElement, MainGameProps>(
             const isValid = await trigger();
             if (!isValid) {
               toast.error("Please fill all the fields!");
+              warningClick();
             }
           }}
         />

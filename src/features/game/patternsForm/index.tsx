@@ -3,6 +3,9 @@ import Button from "../../../components/button";
 import CheckboxGroup from "../../../components/form/checkbox-group";
 import StylePatternsForm from "./style";
 import { toast } from "react-toastify";
+import { useSound } from "use-sound";
+import warningSound from "../../../assets/sounds/warning.mp3";
+import successSound from "../../../assets/sounds/success.mp3";
 
 interface PatternsFormProps {
   display: boolean;
@@ -14,6 +17,8 @@ const PatternsForm: React.FC<PatternsFormProps> = ({
   setOpenPatterns,
 }) => {
   const { control, trigger } = useFormContext();
+  const [warningClick] = useSound(warningSound);
+  const [successClick] = useSound(successSound);
 
   return (
     <StylePatternsForm display={display}>
@@ -77,9 +82,11 @@ const PatternsForm: React.FC<PatternsFormProps> = ({
             const isValid = await trigger("patterns");
             if (isValid) {
               setOpenPatterns(false);
+              successClick();
               return;
             }
             toast.error("Please choose up to 5 patterns!");
+            warningClick();
           }}
         />
       </div>

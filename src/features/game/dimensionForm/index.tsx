@@ -2,6 +2,9 @@ import { Controller, useFormContext } from "react-hook-form";
 import Button from "../../../components/button";
 import Range from "../../../components/form/range";
 import StyleDimensionForm from "./style";
+import { useSound } from "use-sound";
+import warningSound from "../../../assets/sounds/warning.mp3";
+import successSound from "../../../assets/sounds/success.mp3";
 import { toast } from "react-toastify";
 
 interface DimensionFormProps {
@@ -14,6 +17,8 @@ const DimensionForm: React.FC<DimensionFormProps> = ({
   setOpenDimension,
 }) => {
   const { control, trigger } = useFormContext();
+  const [warningClick] = useSound(warningSound);
+  const [successClick] = useSound(successSound);
 
   return (
     <StyleDimensionForm display={display}>
@@ -87,8 +92,10 @@ const DimensionForm: React.FC<DimensionFormProps> = ({
             const isValid = await trigger("dimensionValues");
             if (isValid) {
               setOpenDimension(false);
+              successClick();
               return;
             }
+            warningClick();
             toast.error(
               "Please choose a value between 1 and 10 for each dimension!"
             );

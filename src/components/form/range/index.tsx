@@ -1,4 +1,6 @@
 import StyleRange from "./style";
+import { useSound } from "use-sound";
+import selectSound from "../../../assets/sounds/select.mp3";
 
 interface RangeProps {
   name: string;
@@ -8,6 +10,8 @@ interface RangeProps {
 }
 
 const Range: React.FC<RangeProps> = ({ name, label, value, onChange }) => {
+  const [playSelect] = useSound(selectSound);
+
   return (
     <StyleRange value={Number(value) * 10}>
       <label>
@@ -20,7 +24,10 @@ const Range: React.FC<RangeProps> = ({ name, label, value, onChange }) => {
         min="0"
         max="10"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          onChange(e.target.value);
+          playSelect();
+        }}
       />
     </StyleRange>
   );

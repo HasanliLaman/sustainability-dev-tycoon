@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { useSound } from "use-sound";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Container from "../../../components/container";
 import DimensionForm from "../../../features/game/dimensionForm";
@@ -8,8 +9,9 @@ import MainGame from "../../../features/game/mainGame";
 import PatternsForm from "../../../features/game/patternsForm";
 import Feedback from "../../../features/game/feedback";
 import SqaForm from "../../../features/game/sqaForm";
-import { gameSchema } from "./schema";
 import { calculateScore } from "../../../utils/gameUtils";
+import resultsSound from "../../../assets/sounds/results.wav";
+import { gameSchema } from "./schema";
 import StyleGame from "./style";
 
 const Game = () => {
@@ -22,6 +24,8 @@ const Game = () => {
   const [gameName, setGameName] = useState<string>("");
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
 
+  const [playResults] = useSound(resultsSound);
+
   const onBackBtn = () => {
     setOpenDimension(false);
     setOpenDomain(false);
@@ -33,7 +37,7 @@ const Game = () => {
     resolver: yupResolver(gameSchema),
   });
 
-  let headerTitle = "New Application";
+  let headerTitle = "Design Your System";
 
   if (showFeedback) {
     headerTitle = "Results";
@@ -90,6 +94,7 @@ const Game = () => {
           "⚠️ Your selected design patterns don’t strongly support your application.";
     }
 
+    playResults();
     setFinalScore(Math.round(score * 100));
     setGameName(formData.name);
     setShowFeedback(true);

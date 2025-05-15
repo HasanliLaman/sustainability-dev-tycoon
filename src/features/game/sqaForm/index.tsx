@@ -3,6 +3,9 @@ import Button from "../../../components/button";
 import CheckboxGroup from "../../../components/form/checkbox-group";
 import StyleSqaForm from "./style";
 import { toast } from "react-toastify";
+import { useSound } from "use-sound";
+import warningSound from "../../../assets/sounds/warning.mp3";
+import successSound from "../../../assets/sounds/success.mp3";
 
 interface SqaFormProps {
   display: boolean;
@@ -11,6 +14,8 @@ interface SqaFormProps {
 
 const SqaForm: React.FC<SqaFormProps> = ({ display, setOpenSqa }) => {
   const { control, trigger } = useFormContext();
+  const [warningClick] = useSound(warningSound);
+  const [successClick] = useSound(successSound);
 
   return (
     <StyleSqaForm display={display}>
@@ -46,9 +51,11 @@ const SqaForm: React.FC<SqaFormProps> = ({ display, setOpenSqa }) => {
             const isValid = await trigger("attributes");
             if (isValid) {
               setOpenSqa(false);
+              successClick();
               return;
             }
             toast.error("Please choose up to 5 attributes!");
+            warningClick();
           }}
         />
       </div>
