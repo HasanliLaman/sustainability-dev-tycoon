@@ -58,27 +58,34 @@ export function calculateScore(
   const sqcs = scoresTotal / (10 * qualityAttributesVal.length);
 
   // 3. Design Pattern Contribution Score
-  const impactScores = designPatternsVal.map((pattern) => {
-    const patternImpact = qualityAttributesVal.reduce((acc, sqa) => {
-      const sqaPatternEntry = designPatternsScoresTable.find(
-        (el) => el.qualityAttribute === sqa
-      );
-      const patternScore =
-        sqaPatternEntry?.scores[
-          pattern as keyof typeof sqaPatternEntry.scores
-        ] ?? 0;
-      return (
-        acc +
-        (patternScore * (sqaScores[sqa as keyof typeof sqaScores] || 0)) / 10
-      );
-    }, 0);
-    return patternImpact / qualityAttributesVal.length;
+  let totalScore = 0;
+  let maxPossibleScore = 0;
+
+  qualityAttributesVal.forEach((sqa) => {
+    const sqaScore = sqaScores[sqa as keyof typeof sqaScores] || 0;
+
+    const bestMatch = Math.max(
+      ...designPatternsVal.map((pattern) => {
+        const patternEntry = designPatternsScoresTable.find(
+          (el) => el.qualityAttribute === sqa
+        );
+        const rawScore =
+          patternEntry?.scores[pattern as keyof typeof patternEntry.scores] ||
+          0;
+        return rawScore * 10;
+      })
+    );
+
+    totalScore += (bestMatch * sqaScore) / 10;
+    maxPossibleScore += sqaScore;
   });
-  const dpcs =
-    impactScores.reduce((acc, val) => acc + val, 0) / impactScores.length;
+
+  const dpcs = maxPossibleScore === 0 ? 0 : totalScore / maxPossibleScore;
 
   // 4. Final score
   const score = dasWeight * das + sqcsWeight * sqcs + dpcsWeight * dpcs;
+
+  console.log(das, sqcs, dpcs);
 
   return { score, das, sqcs, dpcs };
 }

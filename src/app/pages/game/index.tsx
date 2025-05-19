@@ -79,19 +79,32 @@ const Game = () => {
       formattedDimensions
     );
 
-    let feedback = "🎉 Great job! Your application is sustainable.";
+    let feedback = "";
 
-    if (das < 0.7 || sqcs < 0.7 || dpcs < 0.7) {
-      feedback = "";
-      if (das < 0.7)
+    if (das >= 0.85 && sqcs >= 0.85 && dpcs >= 0.85) {
+      feedback =
+        "Excellent work. Your application demonstrates strong alignment with sustainability principles across all areas.";
+    } else if (das >= 0.7 && sqcs >= 0.7 && dpcs >= 0.7) {
+      feedback =
+        "Good job. Your application is mostly sustainable, though there are areas that could be improved.";
+    } else {
+      if (das < 0.7) {
         feedback +=
-          "⚠️ Your sustainability priorities don’t align well with this domain.\n ";
-      if (sqcs < 0.7)
+          "Your sustainability priorities do not align well with the needs of this domain.\n";
+      }
+      if (sqcs < 0.7) {
         feedback +=
-          "⚠️ The selected SQAs are not highly suitable for this domain.\n ";
-      if (dpcs < 0.7)
+          "The selected software quality attributes are not highly suitable for this domain.\n";
+      }
+      if (dpcs < 0.7) {
         feedback +=
-          "⚠️ Your selected design patterns don’t strongly support your application.";
+          "The selected design patterns do not provide strong support for the chosen quality attributes.";
+      }
+
+      if (!feedback) {
+        feedback =
+          "There are areas where the sustainability alignment could be improved. Review your selections and try again.";
+      }
     }
 
     playResults();
